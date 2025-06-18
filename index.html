@@ -1,187 +1,173 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link rel="icon" type="image/png" href="images/icon.png">
-  <meta charset="UTF-8">
-  <title>Калькулятор</title>
+  <meta charset="UTF-8" />
+  <title>Генетический Калькулятор</title>
+  <link rel="icon" type="image/png" href="images/icon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-      body {
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: rgb(0, 0, 0);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+    
+    .btn {
+      @apply px-5 py-3 rounded-lg font-semibold text-white
+             bg-gradient-to-r from-teal-400 via-green-400 to-teal-500
+             shadow-lg hover:from-teal-500 hover:via-green-500 hover:to-teal-600
+             transition duration-300 ease-in-out;
+    }
+    
+    .btn-num {
+      @apply btn bg-gradient-to-r from-emerald-300 via-teal-300 to-emerald-400
+             hover:from-emerald-400 hover:via-teal-400 hover:to-emerald-500;
+    }
+ 
+    .btn-clear {
+      @apply px-5 py-3 rounded-lg font-semibold text-white
+             bg-gradient-to-r from-rose-400 to-red-500
+             shadow-md hover:from-rose-500 hover:to-red-600
+             transition duration-300 ease-in-out;
     }
 
-    input {
-      width: 320px;
-      font-size: 32px;
-      text-align: right;
-      margin-bottom: 20px;
-      padding: 10px;
+    .input {
+      @apply w-full border border-teal-300 rounded-lg p-3 text-lg
+             focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent;
+      background-color: #e6fffa; 
     }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 5px;
-      width: 490px;
-    }
-
-    button {
-      padding: 15px;
-      font-size: 16px;
-      background: #3b9e64;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      height: 50px;
-    }
-
-    button:hover {
-      background: #222222;
-    }
-
-    .wide {
-      grid-column: span 7;
-      height: 50px;
-    }
-
-    button[name="figure"] {
-  background-color: #62f199;
-}
   </style>
 </head>
-<body>
+<body class="bg-gradient-to-b from-teal-50 to-white min-h-screen flex flex-col items-center p-8 space-y-8 font-sans">
 
-  <h1>Математический калькулятор для генетического алгоритма</h1>
-  <input type="text" id="display" value="0">
+  <header class="w-full max-w-5xl flex items-center gap-4 bg-teal-600 rounded-xl p-4 shadow-lg text-white select-none">
+    <img src="images/icon.png" alt="Иконка" class="w-12 h-12" />
+    <h1 class="text-3xl font-extrabold drop-shadow-md">Генетический Калькулятор</h1>
+  </header>
 
-  <div class="buttons">
- <button onclick="append('x!')">x!</button>
-    <button onclick="append('(')">(</button>
-    <button onclick="append(')')">)</button>
-    <button onclick="append('%')">%</button>
-    <button onclick="append('/')">÷</button>
-    <button onclick="clearDisplay()">AC</button>
+  <h2 class="text-xl font-semibold text-teal-800 drop-shadow-sm">
+    Математический калькулятор для генетического алгоритма
+  </h2>
 
-    <button onclick="append('Inv')">Inv</button>
-    <button onclick="append('sin(')">sin</button>
-    <button onclick="append('ln(')">ln</button>
-    <button onclick="append('7')" name="figure">7</button>
-    <button onclick="append('8')" name="figure">8</button>
-    <button onclick="append('9')" name="figure">9</button>
+  <input id="display" type="text" value="0"
+         class="w-full max-w-md text-4xl font-mono text-right border border-teal-400 rounded-xl p-4 shadow-inner bg-teal-100" />
 
-    <button onclick="append('π')">π</button>
-    <button onclick="append('cos(')">cos</button>
-    <button onclick="append('log(')">log</button>
-    <button onclick="append('4')" name="figure">4</button>
-    <button onclick="append('5')" name="figure">5</button>
-    <button onclick="append('6')" name="figure">6</button>
+  <div class="grid grid-cols-6 gap-4 w-full max-w-5xl select-none">
+    <button onclick="append('x!')" class="btn">x!</button>
+    <button onclick="append('(')" class="btn"> ( </button>
+    <button onclick="append(')')" class="btn"> ) </button>
+    <button onclick="append('%')" class="btn"> % </button>
+    <button onclick="append('/')" class="btn"> ÷ </button>
+    <button onclick="clearDisplay()" class="btn-clear">AC</button>
 
-    <button onclick="append('e')">e</button>
-    <button onclick="append('tan(')">tan</button>
-    <button onclick="append('√(')">√</button>
-    <button onclick="append('1')" name="figure">1</button>
-    <button onclick="append('2')" name="figure">2</button>
-    <button onclick="append('3')" name="figure">3</button>
+    <button onclick="append('Inv')" class="btn">Inv</button>
+    <button onclick="append('sin(')" class="btn">sin</button>
+    <button onclick="append('ln(')" class="btn">ln</button>
+    <button onclick="append('7')" class="btn-num">7</button>
+    <button onclick="append('8')" class="btn-num">8</button>
+    <button onclick="append('9')" class="btn-num">9</button>
 
-    <button onclick="append('EXP')">EXP</button>
-    <button onclick="append('**')">xʸ</button>
-    <button onclick="append('.')">.</button>
-    <button onclick="append('0')" name="figure">0</button>
-    <button onclick="calculate()">=</button>
-    <button onclick="append('+')">+</button>
+    <button onclick="append('π')" class="btn">π</button>
+    <button onclick="append('cos(')" class="btn">cos</button>
+    <button onclick="append('log(')" class="btn">log</button>
+    <button onclick="append('4')" class="btn-num">4</button>
+    <button onclick="append('5')" class="btn-num">5</button>
+    <button onclick="append('6')" class="btn-num">6</button>
 
-    <button onclick="append('x')">x</button>
-    <button onclick="append('f(x)')">f(x)</button>
+    <button onclick="append('e')" class="btn">e</button>
+    <button onclick="append('tan(')" class="btn">tan</button>
+    <button onclick="append('√(')" class="btn">√</button>
+    <button onclick="append('1')" class="btn-num">1</button>
+    <button onclick="append('2')" class="btn-num">2</button>
+    <button onclick="append('3')" class="btn-num">3</button>
+
+    <button onclick="append('EXP')" class="btn">EXP</button>
+    <button onclick="append('**')" class="btn">xʸ</button>
+    <button onclick="append('.') "class="btn">.</button>
+    <button onclick="append('0')" class="btn-num">0</button>
+    <button onclick="calculate()" class="btn bg-gradient-to-r from-teal-600 to-green-400 rounded hover:from-teal-600 hover:to-green-400">=</button>
+    <button onclick="append('+')" class="btn">+</button>
+
+    <button onclick="append('x')" class="btn">x</button>
+    <button onclick="append('f(x)')" class="btn">f(x)</button>
   </div>
 
-<p>
-      <b>Результат генетического алгоритма:</b><br>
-      <textarea name="ga_output" rows="5" cols="80" readonly placeholder="Здесь будет отображён результат..."></textarea>
-    </p>
+  <div class="flex space-x-4 my-6">
+  <button
+    onclick="showInput('time')"
+    class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold py-2 px-6 rounded shadow-md hover:from-green-400 hover:to-teal-600 transition-all duration-200"
+  >
+    Время
+  </button>
+  <button
+    onclick="showInput('generations')"
+    class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold py-2 px-6 rounded shadow-md hover:from-green-400 hover:to-teal-600 transition-all duration-200"
+  >
+    Поколения
+  </button>
+</div>
 
-  <h1>Функции и символы</h1>
 
-<p>Нажмите на любую кнопку, чтобы скопировать символ в буфер обмена.</p>
-
-  <form>
-
-    <p>
-      <b>Тригонометрические функции:</b><br>
-      <button type="button" name="symbol">sin(x)</button>
-      <button type="button" name="symbol">cos(x)</button>
-      <button type="button" name="symbol">tg(x)</button>
-      <button type="button" name="symbol">ctg(x)</button>
-      <button type="button" name="symbol">arcsin(x)</button>
-      <button type="button" name="symbol">arccos(x)</button>
-      <button type="button" name="symbol">arctg(x)</button>
-      <button type="button" name="symbol">arctcg(x)</button>
-    </p>
-
-    <p>
-      <b>Гиперболические функции:</b><br>
-      <button type="button" name="symbol">sh(x)</button>
-      <button type="button" name="symbol">ch(x)</button>
-      <button type="button" name="symbol">th(x)</button>
-      <button type="button" name="symbol">cth(x)</button>
-      <button type="button" name="symbol">sch(x)</button>
-      <button type="button" name="symbol">csch(x)</button>
-      <button type="button" name="symbol">arsh(x)</button>
-      <button type="button" name="symbol">arch(x)</button>
-      <button type="button" name="symbol">arth(x)</button>
-      <button type="button" name="symbol">arcth(x)</button>
-    </p>
-
-    <p>
-      <b>Логарифмы и степени:</b><br>
-      <button type="button" name="symbol">ln(x)</button>
-      <button type="button" name="symbol">log(x)</button>
-      <button type="button" name="symbol">lg(x)</button>
-      <button type="button" name="symbol">log3(x)</button>
-      <button type="button" name="symbol">log(a,x)</button>
-      <button type="button" name="symbol">ln^2(x)</button>
-      <button type="button" name="symbol">exp(x)</button>
-      <button type="button" name="symbol">a^b</button>
-    </p>
-
-    <p>
-      <b>Корни и модули:</b><br>
-      <button type="button" name="symbol">sqrt(x)</button>
-      <button type="button" name="symbol">root(x)</button>
-      <button type="button" name="symbol">abs(x)</button>
-      <button type="button" name="symbol">|x|</button>
-    </p>
-
-    <p>
-      <b>Арифметика:</b><br>
-      <button type="button" name="symbol">a+b</button>
-      <button type="button" name="symbol">a-b</button>
-      <button type="button" name="symbol">a*b</button>
-      <button type="button" name="symbol">a/b</button>
-    </p>
-
-    <p>
-      <b>Символы:</b><br>
-      <button type="button" name="symbol">π</button>
-      <button type="button" name="symbol">x</button>
-      <button type="button" name="symbol">f(x)</button>
-
-  </form>
-
-  <div>
-    <h2>Что такое генетические алгоритмы и зачем они нужны</h2>
-    <p>
-      Генетический алгоритм (ГА) – это разновидность алгоритмов оптимизации, вдохновлённая идеями эволюционной биологии и естественного отбора. Проще говоря, ГА имитирует процесс эволюции: у нас есть множество потенциальных решений задачи (аналог популяции организмов), эти решения эволюционируют через итерации, «скрещиваясь» и мутируя, и со временем улучшаются по качеству согласно некоторому критерию. Алгоритм периодически отбирает более удачные решения (как выживание наиболее приспособленных) и на их основе генерирует новые решения. В результате за несколько поколений находится решение, близкое к оптимальному.
-    </p>
-    <p>
-      ГА применяется для поиска приближённых решений в задачах, где перебор всех вариантов затруднён. Классические примеры – задачи оптимизации (например, комбинаторные задачи или подбор параметров), где нужно максимизировать или минимизировать некоторую целевую функцию, а прямых методов найти оптимум нет. Вместо того чтобы перебирать все варианты, ГА быстро эволюционирует решения, приближаясь к оптимальным. Это актуально в сложных задачах, например, при планировании маршрутов, составлении расписаний, оптимизации инженерных конструкций и т.д. Генетические алгоритмы относятся к семейству эволюционных алгоритмов – методов, решающих задачи оптимизации на основе имитации эволюционных процессов (наряду с, например, эволюционными стратегиями и генетическим программированием).
-    </p>
+  <div id="input-time" class="hidden w-full max-w-3xl border border-teal-300 rounded-xl p-6 bg-teal-50 shadow-inner space-y-6">
+    <h3 class="text-teal-700 font-bold text-xl">Ввод по времени</h3>
+    <input type="number" placeholder="Мин значение" class="input" />
+    <input type="number" placeholder="Макс значение" class="input" />
+    <input type="number" placeholder="Количество поколений" class="input" />
   </div>
 
+  <div id="input-generations" class="hidden w-full max-w-3xl border border-teal-300 rounded-xl p-6 bg-teal-50 shadow-inner space-y-6">
+    <h3 class="text-teal-700 font-bold text-xl">Ввод по поколениям</h3>
+    <input type="number" placeholder="Мин значение" class="input" />
+    <input type="number" placeholder="Макс значение" class="input" />
+    <input type="number" placeholder="Количество поколений" class="input" />
+  </div>
+
+  <div class="w-full max-w-4xl mt-6">
+    <label class="text-teal-800 font-semibold text-lg">Результат генетического алгоритма:</label>
+    <textarea name="ga_output" readonly
+      placeholder="Здесь будет отображён результат..."
+      class="w-full h-48 mt-2 p-4 rounded-xl border border-teal-300 shadow-inner font-mono text-teal-900 bg-teal-100 resize-y overflow-auto"></textarea>
+  </div>
+
+<div class="bg-gradient-to-r from-green-100 to-teal-100 rounded-2xl shadow-lg p-6 my-10 max-w-4xl mx-auto border border-teal-300">
+  <h2 class="text-2xl font-bold text-teal-800 mb-4">Что такое генетические алгоритмы и зачем они нужны</h2>
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    Генетический алгоритм (ГА) – это разновидность алгоритмов оптимизации, вдохновлённая идеями эволюционной биологии и естественного отбора. Проще говоря, ГА имитирует процесс эволюции: у нас есть множество потенциальных решений задачи (аналог популяции организмов), эти решения эволюционируют через итерации, «скрещиваясь» и мутируя, и со временем улучшаются по качеству согласно некоторому критерию. Алгоритм периодически отбирает более удачные решения (как выживание наиболее приспособленных) и на их основе генерирует новые решения. В результате за несколько поколений находится решение, близкое к оптимальному.
+  </p>
+  <p class="text-gray-700 leading-relaxed">
+   ГА применяется для поиска приближённых решений в задачах, где перебор всех вариантов затруднён. Классические примеры – задачи оптимизации (например, комбинаторные задачи или подбор параметров), где нужно максимизировать или минимизировать некоторую целевую функцию, а прямых методов найти оптимум нет. Вместо того чтобы перебирать все варианты, ГА быстро эволюционирует решения, приближаясь к оптимальным. Это актуально в сложных задачах, например, при планировании маршрутов, составлении расписаний, оптимизации инженерных конструкций и т.д. Генетические алгоритмы относятся к семейству эволюционных алгоритмов – методов, решающих задачи оптимизации на основе имитации эволюционных процессов (наряду с, например, эволюционными стратегиями и генетическим программированием).
+  </p>
+</div>
+
+<div class="bg-gradient-to-r from-green-100 to-teal-100 rounded-2xl shadow-lg p-6 my-10 max-w-4xl mx-auto border border-teal-300">
+  <h2 class="text-2xl font-bold text-teal-800 mb-4">Пошаговый алгоритм работы генетического алгоритма</h2>
+  <ol class="list-decimal list-inside text-gray-800 space-y-2 leading-relaxed">
+    <li>
+      <span class="font-semibold">Определение фитнес-функции.</span> Задаётся метрика качества для оценки решений.
+    </li>
+    <li>
+      <span class="font-semibold">Инициализация популяции.</span> Создаётся стартовый набор случайных решений.
+    </li>
+    <li>
+      <span class="font-semibold">Оценка приспособленности.</span> Вычисляется фитнес каждого индивида.
+    </li>
+    <li>
+      <span class="font-semibold">Селекция.</span> Отбираются родители для следующего поколения (рулетка, турнир, элитизм).
+    </li>
+    <li>
+      <span class="font-semibold">Скрещивание и мутация.</span> Создаётся новая популяция с помощью генетических операторов.
+    </li>
+    <li>
+      <span class="font-semibold">Повтор цикла.</span> Новый цикл: оценка → отбор → генерация → новое поколение.
+    </li>
+    <li>
+      <span class="font-semibold">Критерий остановки.</span> Алгоритм завершает работу при достижении цели или по ограничению.
+    </li>
+  </ol>
+</div>
+
+  <script>
+    function showInput(type) {
+      document.getElementById('input-time').classList.toggle('hidden', type !== 'time');
+      document.getElementById('input-generations').classList.toggle('hidden', type !== 'generations');
+    }
+  
+  </script>
 </body>
 </html>
