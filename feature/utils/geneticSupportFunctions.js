@@ -33,7 +33,7 @@ function convertToBinarParents(parenst){
     return [binarParentOne, binarParentTwo];
 }
 
-function createNewChild(binarParents){
+function binarCrossover(binarParents){
     let newChild = ''
     for (let i = 0; i< binarParents[0].length; i++ ){
         if (i %2 !==0){
@@ -47,7 +47,26 @@ function createNewChild(binarParents){
     return newChild
 }
 
+// 25% что у 1 из потомков будет изменение 
+function binarChengebility(binarNum){
+    let changedBinarNum = binarNum.split('');
+    const binarNumLength = binarNum.length;
+    let randomPosition = Math.floor(Math.random() * binarNumLength);
+    console.log(randomPosition);
+    
+    if (changedBinarNum[randomPosition] == '1' ){
+        console.log("Is one");
+        changedBinarNum[randomPosition] = '0';
+    }
+    else{
+        changedBinarNum[randomPosition] = '1';
+        console.log("Is zero");
+    }
+
+    return changedBinarNum.join("");
+}
 
 
 
-console.log(createNewChild(convertToBinarParents([3,500])));
+
+console.log(binarChengebility(binarCrossover(convertToBinarParents([3,50]))));
