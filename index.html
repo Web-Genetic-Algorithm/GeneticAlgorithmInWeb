@@ -1,11 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithm</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <meta charset="UTF-8">
+  <title>Калькулятор</title>
+  <style>
+      body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: rgb(0, 0, 0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    input {
+      width: 320px;
+      font-size: 32px;
+      text-align: right;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+      width: 490px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 16px;
+      background: #3b9e64;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      height: 50px;
+    }
+
+    button:hover {
+      background: #222222;
+    }
+
+    .wide {
+      grid-column: span 7;
+      height: 50px;
+    }
+
+    button[name="figure"] {
+  background-color: #62f199;
+}
+  </style>
 </head>
 <body>
-    
+
+  <h1>Математический калькулятор для генетического алгоритма</h1>
+  <input type="text" id="display" value="0">
+
+  <div class="buttons">
+ <button onclick="append('x!')">x!</button>
+    <button onclick="append('(')">(</button>
+    <button onclick="append(')')">)</button>
+    <button onclick="append('%')">%</button>
+    <button onclick="append('/')">÷</button>
+    <button onclick="clearDisplay()">AC</button>
+
+    <button onclick="append('Inv')">Inv</button>
+    <button onclick="append('sin(')">sin</button>
+    <button onclick="append('ln(')">ln</button>
+    <button onclick="append('7')" name="figure">7</button>
+    <button onclick="append('8')" name="figure">8</button>
+    <button onclick="append('9')" name="figure">9</button>
+
+    <button onclick="append('π')">π</button>
+    <button onclick="append('cos(')">cos</button>
+    <button onclick="append('log(')">log</button>
+    <button onclick="append('4')" name="figure">4</button>
+    <button onclick="append('5')" name="figure">5</button>
+    <button onclick="append('6')" name="figure">6</button>
+
+    <button onclick="append('e')">e</button>
+    <button onclick="append('tan(')">tan</button>
+    <button onclick="append('√(')">√</button>
+    <button onclick="append('1')" name="figure">1</button>
+    <button onclick="append('2')" name="figure">2</button>
+    <button onclick="append('3')" name="figure">3</button>
+
+    <button onclick="append('EXP')">EXP</button>
+    <button onclick="append('**')">xʸ</button>
+    <button onclick="append('.')">.</button>
+    <button onclick="append('0')" name="figure">0</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="append('+')">+</button>
+
+    <button onclick="append('x')">x</button>
+    <button onclick="append('f(x)')">f(x)</button>
+  </div>
+
+<p>
+      <b>Результат генетического алгоритма:</b><br>
+      <textarea name="ga_output" rows="5" cols="80" readonly placeholder="Здесь будет отображён результат..."></textarea>
+    </p>
+
+  <h1>Функции и символы</h1>
+
+<p>Нажмите на любую кнопку, чтобы скопировать символ в буфер обмена.</p>
+
+  <form>
+
+    <p>
+      <b>Тригонометрические функции:</b><br>
+      <button type="button" name="symbol">sin(x)</button>
+      <button type="button" name="symbol">cos(x)</button>
+      <button type="button" name="symbol">tg(x)</button>
+      <button type="button" name="symbol">ctg(x)</button>
+      <button type="button" name="symbol">arcsin(x)</button>
+      <button type="button" name="symbol">arccos(x)</button>
+      <button type="button" name="symbol">arctg(x)</button>
+      <button type="button" name="symbol">arctcg(x)</button>
+    </p>
+
+    <p>
+      <b>Гиперболические функции:</b><br>
+      <button type="button" name="symbol">sh(x)</button>
+      <button type="button" name="symbol">ch(x)</button>
+      <button type="button" name="symbol">th(x)</button>
+      <button type="button" name="symbol">cth(x)</button>
+      <button type="button" name="symbol">sch(x)</button>
+      <button type="button" name="symbol">csch(x)</button>
+      <button type="button" name="symbol">arsh(x)</button>
+      <button type="button" name="symbol">arch(x)</button>
+      <button type="button" name="symbol">arth(x)</button>
+      <button type="button" name="symbol">arcth(x)</button>
+    </p>
+
+    <p>
+      <b>Логарифмы и степени:</b><br>
+      <button type="button" name="symbol">ln(x)</button>
+      <button type="button" name="symbol">log(x)</button>
+      <button type="button" name="symbol">lg(x)</button>
+      <button type="button" name="symbol">log3(x)</button>
+      <button type="button" name="symbol">log(a,x)</button>
+      <button type="button" name="symbol">ln^2(x)</button>
+      <button type="button" name="symbol">exp(x)</button>
+      <button type="button" name="symbol">a^b</button>
+    </p>
+
+    <p>
+      <b>Корни и модули:</b><br>
+      <button type="button" name="symbol">sqrt(x)</button>
+      <button type="button" name="symbol">root(x)</button>
+      <button type="button" name="symbol">abs(x)</button>
+      <button type="button" name="symbol">|x|</button>
+    </p>
+
+    <p>
+      <b>Арифметика:</b><br>
+      <button type="button" name="symbol">a+b</button>
+      <button type="button" name="symbol">a-b</button>
+      <button type="button" name="symbol">a*b</button>
+      <button type="button" name="symbol">a/b</button>
+    </p>
+
+    <p>
+      <b>Символы:</b><br>
+      <button type="button" name="symbol">π</button>
+      <button type="button" name="symbol">x</button>
+      <button type="button" name="symbol">f(x)</button>
+
+  </form>
+
+  <div>
+    <h2>Что такое генетические алгоритмы и зачем они нужны</h2>
+    <p>
+      Генетический алгоритм (ГА) – это разновидность алгоритмов оптимизации, вдохновлённая идеями эволюционной биологии и естественного отбора. Проще говоря, ГА имитирует процесс эволюции: у нас есть множество потенциальных решений задачи (аналог популяции организмов), эти решения эволюционируют через итерации, «скрещиваясь» и мутируя, и со временем улучшаются по качеству согласно некоторому критерию. Алгоритм периодически отбирает более удачные решения (как выживание наиболее приспособленных) и на их основе генерирует новые решения. В результате за несколько поколений находится решение, близкое к оптимальному.
+    </p>
+    <p>
+      ГА применяется для поиска приближённых решений в задачах, где перебор всех вариантов затруднён. Классические примеры – задачи оптимизации (например, комбинаторные задачи или подбор параметров), где нужно максимизировать или минимизировать некоторую целевую функцию, а прямых методов найти оптимум нет. Вместо того чтобы перебирать все варианты, ГА быстро эволюционирует решения, приближаясь к оптимальным. Это актуально в сложных задачах, например, при планировании маршрутов, составлении расписаний, оптимизации инженерных конструкций и т.д. Генетические алгоритмы относятся к семейству эволюционных алгоритмов – методов, решающих задачи оптимизации на основе имитации эволюционных процессов (наряду с, например, эволюционными стратегиями и генетическим программированием).
+    </p>
+  </div>
+
 </body>
 </html>
