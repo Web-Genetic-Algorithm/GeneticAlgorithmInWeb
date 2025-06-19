@@ -1,5 +1,5 @@
 import { convertToBinarParents, binarCrossover, binarChengebility, getRandomIntOnInterval} from '../utils/geneticSupportFunctions.js'
-import { evaluate } from "https://cdn.jsdelivr.net/npm/mathjs@12.4.1/+esm";
+import { evaluate } from 'mathjs';
 
 
 export function newGeniration(priviosGenerationBests) {

@@ -1,19 +1,40 @@
 import { v4 as uuidv4 } from 'uuid';
 import { validateApiRoutesParams } from "./validation.js";
 import { createCacheKey, getTaskByJobId, setDoneJobToCache, setPendingJobToCache, findCashedJobByFunctionName } from "../../services/cacheService.js";
-
+import { geneticAlgorithm } from "./../../services/geneticAlgorithm.js"
 
 function runAlgorithm(params){
     console.log("TEST ALGORITHM", params);
-   return new Promise((resolve) => {
-     // ЗАГЛУШКА! МЕСТО ДЛЯ ГЕНЕТИЧЕСКОГО АЛГОРИТМА
-    setTimeout(() => {
-           resolve({
-         bestIndividual: { x: 1, y: 2 },
-        history: [0.1, 0.05, 0.01],
-       });
-     }, 1000);
-});
+   
+    const {
+        range, 
+        stopType,
+        customFunction,
+        taskType,
+        cacheNumber,
+        generationsCount,
+        timeOfWork
+    } = params;
+
+    const result = geneticAlgorithm(
+        range, 
+        stopType,
+        customFunction,
+        taskType,
+        cacheNumber,
+        generationsCount,
+        timeOfWork
+    );
+
+    if (stopType === "generations") {
+        return Promise.resolve(result);
+    } else if (stopType === "time"){
+        if(result instanceof Promise){
+            return result;
+        }
+    } else {
+        return Promise.reject("Invalid stopType");
+    }
 }
 export async function handlePostRequest(req, res){
     const params = req.body;
