@@ -1,3 +1,9 @@
+document.querySelector('#send-request').addEventListener('click', () => {
+  sendGARequest();
+})
+
+const apiUrl = "http://localhost:3000";
+
 async function sendGARequest() {
   const inputTime = document.getElementById('input-time');
   const inputGen = document.getElementById('input-generations');
@@ -58,7 +64,7 @@ async function sendGARequest() {
   };
 
   try {
-    const response = await fetch('api/optimize', {
+    const response = await fetch(`${apiUrl}/api/optimize`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(userData),
