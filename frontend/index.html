@@ -92,9 +92,9 @@
     <input type="number" placeholder="Количество поколений" class="input" />
   </div>
 
-  <div class="flex justify-center my-6">
+ <div class="flex justify-center my-6">
   <button
-    onclick="sendGARequest()"
+    id="send-request"
     class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold text-lg px-6 py-3 rounded-xl shadow-lg hover:from-green-400 hover:to-teal-600 transition-all duration-300"
   >
     Запрос
@@ -227,6 +227,43 @@
 </div>
 
 <script>
+    // Находим поле ввода
+const display = document.getElementById('display');
+
+// Добавить значение в строку
+function append(value) {
+  if (display.value === '0') {
+    display.value = value;
+  } else {
+    display.value += value;
+  }
+}
+
+// Очистить строку
+function clearDisplay() {
+  display.value = '0';
+}
+
+// Вычислить результат
+function calculate() {
+  try {
+    display.value = eval(display.value
+      .replace(/π/g, Math.PI)
+      .replace(/e/g, Math.E)
+      .replace(/√/g, 'Math.sqrt')
+      .replace(/ln/g, 'Math.log')
+      .replace(/log/g, 'Math.log10')
+      .replace(/sin/g, 'Math.sin')
+      .replace(/cos/g, 'Math.cos')
+      .replace(/tan/g, 'Math.tan')
+      .replace(/EXP/g, 'Math.exp')
+    );
+  } catch {
+    display.value = 'Ошибка';
+  }
+}
+
+
     function showInput(type) {
       document.getElementById('input-time').classList.toggle('hidden', type !== 'time');
       document.getElementById('input-generations').classList.toggle('hidden', type !== 'generations');
@@ -234,8 +271,8 @@
   
   </script>
  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="calculator.js"></script>
-    <script src="symbols.js"></script>
-    <script src="ga-request.js"></script>
+<script src="./calculator.js" type="module"></script>
+<script src="./symbols.js" type="module"></script>
+<script src="./ga-request.js" type="module"></script>
 </body>
 </html>
