@@ -5,34 +5,7 @@
   <title>Нахождение минимума и максимума функции с использованием генетического алгоритма</title>
   <link rel="icon" type="image/png" href="images/icon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    
-    .btn {
-      @apply px-5 py-3 rounded-lg font-semibold text-white
-             bg-gradient-to-r from-teal-400 via-green-400 to-teal-500
-             shadow-lg hover:from-teal-500 hover:via-green-500 hover:to-teal-600
-             transition duration-300 ease-in-out;
-    }
-    
-    .btn-num {
-      @apply btn bg-gradient-to-r from-emerald-300 via-teal-300 to-emerald-400
-             hover:from-emerald-400 hover:via-teal-400 hover:to-emerald-500;
-    }
- 
-    .btn-clear {
-      @apply px-5 py-3 rounded-lg font-semibold text-white
-             bg-gradient-to-r from-rose-400 to-red-500
-             shadow-md hover:from-rose-500 hover:to-red-600
-             transition duration-300 ease-in-out;
-    }
-
-    .input {
-      @apply w-full border border-teal-300 rounded-lg p-3 text-lg
-             focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent;
-      background-color: #e6fffa; 
-    }
-  </style>
+  <script src="main.js"></script>
 </head>
 <body class="bg-gradient-to-b from-teal-50 to-white min-h-screen flex flex-col items-center p-8 space-y-8 font-sans">
 
@@ -49,43 +22,43 @@
          class="w-full max-w-md text-4xl font-mono text-right border border-teal-400 rounded-xl p-4 shadow-inner bg-teal-100" />
 
   <div class="grid grid-cols-6 gap-4 w-full max-w-5xl select-none">
-    <button onclick="append('x!')" class="btn">x!</button>
-    <button onclick="append('(')" class="btn"> ( </button>
-    <button onclick="append(')')" class="btn"> ) </button>
-    <button onclick="append('%')" class="btn"> % </button>
-    <button onclick="append('/')" class="btn"> ÷ </button>
-    <button onclick="clearDisplay()" class="btn-clear">AC</button>
+    <button onclick="append('x!')"class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">x!</button>
+    <button onclick="append('(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200"> ( </button>
+    <button onclick="append(')')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200"> ) </button>
+    <button onclick="append('-')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200"> - </button>
+    <button onclick="append('/')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200"> ÷ </button>
+    <button onclick="clearDisplay()" class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold py-2 px-6 rounded shadow-md hover:from-green-400 hover:to-teal-600 transition-all duration-200">AC</button>
 
-    <button onclick="append('Inv')" class="btn">Inv</button>
-    <button onclick="append('sin(')" class="btn">sin</button>
-    <button onclick="append('ln(')" class="btn">ln</button>
-    <button onclick="append('7')" class="btn-num">7</button>
-    <button onclick="append('8')" class="btn-num">8</button>
-    <button onclick="append('9')" class="btn-num">9</button>
+    <button onclick="append('Inv')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">Inv</button>
+    <button onclick="append('sin(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">sin</button>
+    <button onclick="append('ln(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">ln</button>
+    <button onclick="append('7')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">7</button>
+    <button onclick="append('8')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">8</button>
+    <button onclick="append('9')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">9</button>
 
-    <button onclick="append('π')" class="btn">π</button>
-    <button onclick="append('cos(')" class="btn">cos</button>
-    <button onclick="append('log(')" class="btn">log</button>
-    <button onclick="append('4')" class="btn-num">4</button>
-    <button onclick="append('5')" class="btn-num">5</button>
-    <button onclick="append('6')" class="btn-num">6</button>
+    <button onclick="append('π')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">π</button>
+    <button onclick="append('cos(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">cos</button>
+    <button onclick="append('log(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">log</button>
+    <button onclick="append('4')" class="bg-teal-500 hover:b5-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">4</button>
+    <button onclick="append('5')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">5</button>
+    <button onclick="append('6')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">6</button>
 
-    <button onclick="append('e')" class="btn">e</button>
-    <button onclick="append('tan(')" class="btn">tan</button>
-    <button onclick="append('√(')" class="btn">√</button>
-    <button onclick="append('1')" class="btn-num">1</button>
-    <button onclick="append('2')" class="btn-num">2</button>
-    <button onclick="append('3')" class="btn-num">3</button>
+    <button onclick="append('e')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">e</button>
+    <button onclick="append('tan(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">tan</button>
+    <button onclick="append('√(')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">√</button>
+    <button onclick="append('1')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">1</button>
+    <button onclick="append('2')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">2</button>
+    <button onclick="append('3')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">3</button>
 
-    <button onclick="append('EXP')" class="btn">EXP</button>
-    <button onclick="append('**')" class="btn">xʸ</button>
-    <button onclick="append('.') "class="btn">.</button>
-    <button onclick="append('0')" class="btn-num">0</button>
-    <button onclick="calculate()" class="btn bg-gradient-to-r from-teal-600 to-green-400 rounded hover:from-teal-600 hover:to-green-400">=</button>
-    <button onclick="append('+')" class="btn">+</button>
-
-    <button onclick="append('x')" class="btn">x</button>
-    <button onclick="append('f(x)')" class="btn">f(x)</button>
+    <button onclick="append('EXP')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">EXP</button>
+    <button onclick="append('**')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">xʸ</button>
+    <button onclick="append('.') "class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">.</button>
+    <button onclick="append('0')" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-xl px-4 py-3 rounded-md shadow-md transition duration-200">0</button>
+    <button onclick="calculate()" class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold py-2 px-6 rounded shadow-md hover:from-green-400 hover:to-teal-600 transition-all duration-200">=</button>
+    <button onclick="append('+')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">+</button>
+    <button onclick="append('%')"class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">%</button>
+    <button onclick="append('x')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">x</button>
+    <button onclick="append('f(x)')" class="bg-white text-teal-600 border border-teal-300 hover:bg-teal-100 active:bg-teal-200 rounded-md text-lg px-4 py-2 transition duration-200">f(x)</button>
   </div>
 
   <div class="flex space-x-4 my-6">
@@ -118,6 +91,15 @@
     <input type="number" placeholder="Макс значение" class="input" />
     <input type="number" placeholder="Количество поколений" class="input" />
   </div>
+
+  <div class="flex justify-center my-6">
+  <button
+    class="bg-gradient-to-r from-green-400 to-teal-600 text-white font-semibold text-lg px-6 py-3 rounded-xl shadow-lg hover:from-green-400 hover:to-teal-600 transition-all duration-300"
+  >
+    Запрос
+  </button>
+</div>
+
 
   <div class="w-full max-w-4xl mt-6">
     <label class="text-teal-800 font-semibold text-lg">Результат генетического алгоритма:</label>
