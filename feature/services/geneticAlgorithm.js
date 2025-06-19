@@ -97,7 +97,7 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
         },
         "history": historyOfGenirations
       }
-    //TO DO ASENHRONIC ALGORITHM//
+    //TO DO ASENHRONIC ALGORITHM// -COMPLITE!
   }
   else {
     console.error("Ошибка ввода параметра stopType")
