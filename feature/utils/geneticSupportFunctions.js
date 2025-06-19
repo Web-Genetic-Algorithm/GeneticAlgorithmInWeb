@@ -84,7 +84,7 @@ export function binarChengebility(binarNum) {
 }
 
 export function getRandomIntOnInterval(min, max) {
-    return (Math.random() * (max - min) + min);
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 
