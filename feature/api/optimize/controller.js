@@ -37,6 +37,8 @@ function runAlgorithm(params){
     }
 }
 export async function handlePostRequest(req, res){
+    console.log("POST /optimize received");
+    console.log("Request body:", req.body);
     const params = req.body;
 
     const validationResult = validateApiRoutesParams(params);
@@ -65,7 +67,7 @@ export async function handlePostRequest(req, res){
     const jobId = uuidv4();
     setPendingJobToCache(params, jobId);
 
-    runAlgorithm(params).then((result) => {//IMPLEMENT ALGORITHM
+    runAlgorithm(params).then((result) => {
         setDoneJobToCache(params, jobId, result);
     });
 
@@ -74,6 +76,7 @@ export async function handlePostRequest(req, res){
         status: "pending",
         message: "Job started",
     });
+    res.json({ message: "Запрос принят" });
 }
 
 export function handleGetResult(req, res) {
