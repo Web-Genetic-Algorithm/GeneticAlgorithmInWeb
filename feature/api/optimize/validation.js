@@ -6,11 +6,11 @@ export function validateApiRoutesParams(params) {
     stopTypeValidation: validateStopType(params.stopType),
     customFunctionValidation: validateCustomFunction(params.customFunction),
     taskTypeValidation: validateTaskType(params.taskType),
-    validateGenerationsOrTime: validateGenerationsOrTime(
-      params.stopType,
-      params.generationsCount,
-      params.timeOfWork
-    ),
+    validateGenerationsOrTime: validateGenerationsOrTime({
+      stopType: params.stopType,
+      generationsCount: params.generationsCount,
+      timeOfWork: params.timeOfWork,
+    }),
   };
 
   const errors = Object.values(result).filter(
