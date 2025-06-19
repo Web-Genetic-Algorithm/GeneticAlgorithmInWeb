@@ -2,6 +2,8 @@
   "type": "module",
   "dependencies": {
     "express": "^5.1.0",
-    "mathjs": "^14.5.2"
+    "mathjs": "^14.5.2",
+    "node-cache": "^5.1.2",
+    "uuid": "^11.1.0"
   }
 }
