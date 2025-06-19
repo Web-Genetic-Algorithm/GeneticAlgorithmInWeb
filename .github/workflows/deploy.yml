@@ -50,4 +50,4 @@ jobs:
 
           docker stop frontend || true
           docker rm frontend || true
-          docker run -d --name frontend -p 8088:8088 devdashy/genetic-frontend:latest
+          docker run -d --name frontend -p 8082:80 devdashy/genetic-frontend:latest
