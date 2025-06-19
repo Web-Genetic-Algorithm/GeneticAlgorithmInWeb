@@ -1,8 +1,8 @@
 import NodeCache from "node-cache";
 
-const cache = new NodeCache({ stdTTL: 600 });
+export const cache = new NodeCache({ stdTTL: 600 });
 
-function createCacheKey(params) {
+export function createCacheKey(params) {
   try {
     const keys = Object.keys(params).sort();
     const values = keys.map((key) => {
@@ -23,19 +23,46 @@ function createCacheKey(params) {
   }
 }
 
-function getFromCache(params) {
-  const key = createCacheKey(params);
-  if (!key) return;
-  return cache.get(key);
+export function findCashedJobByFunctionName(customFunction) {
+  const keys = cache.keys();
+
+  for (const key of keys) {
+    const parts = key.split("|");
+    const foundCustomFuncKey = parts.find(
+      (part) =>
+        part.startsWith("customFunction=") &&
+        part === `customFunction=${JSON.stringify(customFunction)}`
+    );
+
+    if (foundCustomFuncKey) {
+      return cache.get(key);
+    }
+  }
+  return null;
 }
 
-function setToCache(params, value, duration) {
-  const key = createCacheKey(params);
-  if (!key) return;
+export function setPendingJobToCache(key, jobId) {
+  cache.set(key, {
+    jobId,
+    status: "pending",
+    result: null,
+  });
+}
 
-  if (duration !== undefined) {
-    cache.set(key, value, duration);
-  } else {
-    cache.set(key, value);
+export function setDoneJobToCache(key, jobId, result) {
+  cache.set(key, {
+    jobId,
+    status: "done",
+    result,
+  });
+}
+export function getTaskByJobId(jobId) {
+  const keys = cache.keys();
+  for (const key of keys) {
+    const task = cache.get(key);
+    if (task?.jobId === jobId) {
+      return task;
+    }
   }
+  return null;
 }
