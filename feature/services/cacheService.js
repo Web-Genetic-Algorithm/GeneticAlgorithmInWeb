@@ -1,26 +1,41 @@
-const NodeCache = require("node-cache");
+import NodeCache from "node-cache";
 
-const cache = new NodeCache();
+const cache = new NodeCache({ stdTTL: 600 });
 
-module.exports = duration => (req, res, next) => {
-    /*
-function createMiddleware(duration) {
-  return function(req, res, next) {
-    // Middleware-логика
-  };
+function createCacheKey(params) {
+  try {
+    const keys = Object.keys(params).sort();
+    const values = keys.map((key) => {
+      const value = params[key];
+
+      if (typeof value === "number" && isNaN(value)) return `${key}=NaN`;
+      if (typeof value === "function" || typeof value === "symbol")
+        return `${key}=[unsupported]`;
+      if (typeof value === "undefined") return `${key}=undefined`;
+
+      return `${key}=${JSON.stringify(value)}`;
+    });
+
+    return values.join("|");
+  } catch (error) {
+    console.error("Error during key creation", error);
+    return null;
+  }
 }
 
-module.exports = createMiddleware;
-*/
-    if(req.method !== "GET") {
-        console.error("Cannot cache non-GET methods");
-        return next();
-    //if the request isn't GET we will call next() and skip the rest of the midlleware
-    }
-    const key = req.body.customFunction;
-    const cacheResponse = cache.get(key);
+function getFromCache(params) {
+  const key = createCacheKey(params);
+  if (!key) return;
+  return cache.get(key);
+}
 
-    if(cachedResponse){
-        res.sent(cachedResponse);
-    }
-};
+function setToCache(params, value, duration) {
+  const key = createCacheKey(params);
+  if (!key) return;
+
+  if (duration !== undefined) {
+    cache.set(key, value, duration);
+  } else {
+    cache.set(key, value);
+  }
+}
