@@ -1,0 +1,2 @@
+function handlePostRequest() {}
+function handleGetResult() {}

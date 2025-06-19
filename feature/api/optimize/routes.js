@@ -1,9 +1,9 @@
-import express from 'express';
+import express from "express";
+import { handlePostRequest, handleGetResult } from "./controller.js";
 
-const apiRoutes = express.Router();
+const router = express.Router();
 
-apiRoutes.post("/", (req, res) => {
-    res.status(200).json({ message: 'В разработке' });
-});
+router.post("/optimize", handlePostRequest);
+router.get("/optimize/result/:jobId", handleGetResult);
 
-export default apiRoutes;
+export default router;
