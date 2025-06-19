@@ -41,7 +41,8 @@ export function findCashedJobByFunctionName(customFunction) {
   return null;
 }
 
-export function setPendingJobToCache(key, jobId) {
+export function setPendingJobToCache(params, jobId) {
+  const key = createCacheKey(params);
   cache.set(key, {
     jobId,
     status: "pending",
@@ -49,7 +50,8 @@ export function setPendingJobToCache(key, jobId) {
   });
 }
 
-export function setDoneJobToCache(key, jobId, result) {
+export function setDoneJobToCache(params, jobId, result) {
+  const key = createCacheKey(params)
   cache.set(key, {
     jobId,
     status: "done",
