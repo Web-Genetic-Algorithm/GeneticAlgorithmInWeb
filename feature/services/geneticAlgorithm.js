@@ -5,7 +5,7 @@ import {newGeniration, getTheBestByNumArray, getTheBestByNum,firstNumsArray} fro
 
 
 export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cacheNumber, genCount, workTime) {
-  let generationNumber = 0;
+  let generationNumber = 1;
 
   let allNumsFromGeniration = [];
 
@@ -23,10 +23,10 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
   bestNumsFromGeniration = getTheBestByNumArray(allNumsFromGeniration, maxOrMin, customFunc, 8);
   bestNumFromGeneration = getTheBestByNum(allNumsFromGeniration, maxOrMin, customFunc);
   addValue(generationNumber, bestNumFromGeneration, cacheNumber, historyOfGenirations)
-  console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
+  //console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
 
   if (breakType === "generations") {
-    for (generationNumber = 1; generationNumber < genCount; generationNumber++) {
+    for (generationNumber = 2; generationNumber < genCount; generationNumber++) {
       allNumsFromGeniration = newGeniration(bestNumsFromGeniration);
 
       bestNumsFromGeniration = getTheBestByNumArray(allNumsFromGeniration, maxOrMin, customFunc, 8);
@@ -36,7 +36,7 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
       addValue(generationNumber, bestNumFromGeneration, cacheNumber, historyOfGenirations)
       //console.log(historyOfGenirations);
 
-      console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
+      //console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
 
       if (historyOfGenirations.length >= cacheNumber && historyOfGenirations.every(val => val.answer === historyOfGenirations[0].answer)) {
         console.log(historyOfGenirations);
@@ -53,7 +53,13 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
     }
   }
   else if (breakType === "time") {
+    const controller = new AbortController();
+    let signal = controller.signal;
+
+
+
     workForDuration(async () => {
+      //if (signal.aborted) return
       //for (generationNumber=1; generationNumber < genCount;generationNumber++){
       allNumsFromGeniration = newGeniration(bestNumsFromGeniration);
 
@@ -64,10 +70,11 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
       addValue(generationNumber, bestNumFromGeneration, cacheNumber, historyOfGenirations)
       //console.log(historyOfGenirations);
 
-      console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
+      //console.log(`№${generationNumber} Генерация:${bestNumsFromGeniration} Лучшее ${bestNumFromGeneration}`);
 
       if (historyOfGenirations.length >= cacheNumber && historyOfGenirations.every(val => val.answer === historyOfGenirations[0].answer)) {
         //console.log(historyOfGenirations);
+        //controller.abort();
         return {
           "bestIndividual": {
             "value": bestNumFromGeneration,
@@ -80,7 +87,8 @@ export function geneticAlgorithm(funcRange, breakType, customFunc, maxOrMin, cac
       //}
       //console.log(historyOfGenirations)
      generationNumber++;
-    }, workTime)
+    
+    }, workTime,signal)
 
      return {
         "bestIndividual": {

@@ -14,7 +14,7 @@ export function newGeniration(priviosGenerationBests) {
   for (let i = 0; i < parentAllVariability.length; i++) {
     newGenerationInBinar.push(binarCrossover(convertToBinarParents(parentAllVariability[i])));
   }
-  console.log(newGenerationInBinar);
+  //console.log(newGenerationInBinar);
   let isChngebility = Math.random() <= 0.25;
   if (isChngebility) {
     //console.log("Is chengeing")

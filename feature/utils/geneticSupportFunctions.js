@@ -69,7 +69,7 @@ export function binarChengebility(binarNum) {
     let changedBinarNum = binarNum.split('');
     const binarNumLength = binarNum.length;
     let randomPosition = Math.floor(Math.random() * binarNumLength);
-    console.log(randomPosition);
+    //console.log(randomPosition);
 
     if (changedBinarNum[randomPosition] == '1') {
         //console.log("Is one");
@@ -96,11 +96,15 @@ export function addValue(gen, val, historyLength, lastValues) {
 }
 
 export async function workForDuration(fn, timeDuration) {
-    const end = Date.now() + timeDuration;
-    while (Date.now() < end) {
-        await fn();
+  const end = Date.now() + timeDuration;
+  while (Date.now() < end) {
+    const result = await fn();
+    if (result !== undefined) {
+      return result; // остановка при наличии результата
     }
+  }
 }
+
 
 
 
