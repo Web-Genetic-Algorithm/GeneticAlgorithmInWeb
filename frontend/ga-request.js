@@ -2,7 +2,7 @@ document.querySelector('#send-request').addEventListener('click', () => {
   sendGARequest();
 })
 
-const apiUrl = "http://localhost:3000";
+const apiUrl = "http://stud-learn.usm.md:3000";
 
 async function sendGARequest() {
   const inputTime = document.getElementById('input-time');
