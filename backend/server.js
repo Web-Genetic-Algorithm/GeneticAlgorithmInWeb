@@ -13,6 +13,6 @@ app.use(bodyParser.json());
 
 app.use("/api/", router);
 
-app.listen(`${domain}:${port}`, () =>
+app.listen(`${port}`, () =>
   console.log(`Server running on port: ${domain}:${port}`)
 );
