@@ -6,6 +6,11 @@ export function validateApiRoutesParams(params) {
     stopTypeValidation: validateStopType(params.stopType),
     customFunctionValidation: validateCustomFunction(params.customFunction),
     taskTypeValidation: validateTaskType(params.taskType),
+    validateGenerationsOrTime: validateGenerationsOrTime(
+      params.stopType,
+      params.generationsCount,
+      params.timeOfWork
+    ),
   };
 
   const errors = Object.values(result).filter(
@@ -24,7 +29,7 @@ function validateRange(arrayOfNums) {
     return { error: "Range must consist of two numbers" };
   if (!arrayOfNums.every((num) => typeof num === "number"))
     return { error: "Range must contain only numbers" };
-  if (arrayOfNums[0] < arrayOfNums[1])
+  if (arrayOfNums[0] > arrayOfNums[1])
     return {
       error: "The first number of the range must be less that the second",
     };
@@ -32,14 +37,42 @@ function validateRange(arrayOfNums) {
 }
 
 function validateStopType(stopType) {
-  /*TO DO: ADD NORMAL VALIDATION*/
-  if (typeof stopType !== "string")
-    return { error: "This field can only be a string" };
+  if (typeof stopType !== "string") {
+    return { error: "Stop type must be a string" };
+  }
+
+  if (stopType !== "time" && stopType !== "generations") {
+    return { error: 'Stop type must be either "time" or "generations"' };
+  }
+
+  return true;
+}
+
+function validateGenerationsOrTime({ stopType, generationsCount, timeOfWork }) {
+  const hasGen =
+    typeof generationsCount === "number" && !isNaN(generationsCount);
+  const hasTime = typeof timeOfWork === "number" && !isNaN(timeOfWork);
+
+  if ((hasGen && hasTime) || (!hasGen && !hasTime)) {
+    return {
+      error:
+        "Only one of 'generationsCount' or 'timeOfWork' must be a valid number",
+    };
+  }
+
+  if (stopType === "generations" && !hasGen) {
+    return {
+      error: "generationsCount is required when stopType is 'generations'",
+    };
+  }
+  if (stopType === "time" && !hasTime) {
+    return { error: "timeOfWork is required when stopType is 'time'" };
+  }
+
   return true;
 }
 
 function validateCustomFunction(customFunction, scope = { x: 1 }) {
-  /*TO DO: ADD EXTRA VALIDATION*/
   try {
     const result = evaluate(customFunction, scope);
     if (typeof result != "number" || !isFinite(result))
