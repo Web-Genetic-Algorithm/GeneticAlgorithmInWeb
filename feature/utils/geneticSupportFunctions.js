@@ -1,13 +1,18 @@
-function convertToBinarParents(parenst){
+/**
+ * Converts array of numbers to binar number
+ * @param {*} parenst array of cuple of numbers
+ * @returns binar represintation of
+ */
+export function convertToBinarParents(parenst){
     const parentOne = parenst[0];
     const parentTwo = parenst[1];
 
     let binarParentOne = parentOne.toString(2);
     let binarParentTwo = parentTwo.toString(2);
-
+    /*
     console.log(binarParentOne);
     console.log(binarParentTwo);
-
+    */
     let differ = 0;
     if (binarParentOne.length > binarParentTwo.length ){
         differ = binarParentOne.length - binarParentTwo.length;
@@ -26,47 +31,70 @@ function convertToBinarParents(parenst){
         binarParentOne = '0' + binarParentOne;
         binarParentTwo = '0' + binarParentTwo;
     }
-    
+    /*
     console.log(binarParentOne);
     console.log(binarParentTwo);
-    
+    */
     return [binarParentOne, binarParentTwo];
 }
 
-function binarCrossover(binarParents){
-    let newChild = ''
+
+/**
+ * Crossovers two binar numbers
+ * @param {*} binarParents - cupple of binar numbers 
+ * @returns - crosovered child of two numbers
+ */
+export function binarCrossover(binarParents){
+    let newChild = '';
+    const condition = Math.random() < 0.5 ? (i) =>i % 2 === 0 : (i) => i % 2 !== 0;
     for (let i = 0; i< binarParents[0].length; i++ ){
-        if (i %2 !==0){
-            newChild =newChild+binarParents[0][i];
+        if (condition(i)){
+            newChild = newChild+binarParents[0][i];
         }
         else{
             newChild =newChild+binarParents[1][i];
         }
     }
 
-    return newChild
+    return newChild;
 }
 
-// 25% что у 1 из потомков будет изменение 
-function binarChengebility(binarNum){
+ 
+/**
+ * 
+ * @param {*} binarNum - binar nuber to mutate
+ * @returns binar number with mutation
+ */
+export function binarChengebility(binarNum){
     let changedBinarNum = binarNum.split('');
     const binarNumLength = binarNum.length;
     let randomPosition = Math.floor(Math.random() * binarNumLength);
     console.log(randomPosition);
     
     if (changedBinarNum[randomPosition] == '1' ){
-        console.log("Is one");
+        //console.log("Is one");
         changedBinarNum[randomPosition] = '0';
     }
     else{
         changedBinarNum[randomPosition] = '1';
-        console.log("Is zero");
+        //console.log("Is zero");
     }
 
     return changedBinarNum.join("");
 }
 
+export function getRandomIntOnInterval(min, max) {
+  return ( Math.random() * (max - min) + min);
+}
+
+
+export function addValue(gen, val, historyLength, lastValues) {
+  lastValues.push({generation: gen, answer: val});
+  if (lastValues.length > historyLength) {
+    lastValues.shift(); // удаляем самое старое значение
+  }
+}
 
 
 
-console.log(binarChengebility(binarCrossover(convertToBinarParents([3,50]))));
+//console.log(binarChengebility(binarCrossover(convertToBinarParents([3,50]))));
