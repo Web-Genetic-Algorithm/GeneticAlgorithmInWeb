@@ -46,7 +46,6 @@ export function convertToBinarParents(parenst) {
  */
 export function binarCrossover(binarParents) {
     let newChild = '';
-    
     const condition = Math.random() < 0.5 ? (i) => i % 2 === 0 : (i) => i % 2 !== 0;
     for (let i = 0; i < binarParents[0].length; i++) {
         if (condition(i)) {
@@ -55,8 +54,8 @@ export function binarCrossover(binarParents) {
         else {
             newChild = newChild + binarParents[1][i];
         }
-    
-}
+    }
+
     return newChild;
 }
 

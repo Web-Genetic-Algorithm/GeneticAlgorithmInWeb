@@ -7,6 +7,7 @@ document.querySelector('#send-request').addEventListener('click', () => {
 let jobID = NaN;
 
 let gotResp = false;
+
 async function sendGARequest() {
   const inputTime = document.getElementById('input-time');
   const inputGen = document.getElementById('input-generations');
@@ -93,6 +94,11 @@ async function sendGARequest() {
   }
     */
 
+
+
+
+
+/*
 fetch(`${apiUrl}/api/optimize`, {
   method: 'POST',               // Метод запроса
   headers: {
@@ -104,12 +110,33 @@ fetch(`${apiUrl}/api/optimize`, {
 .then(result => {
   console.log('Успешно отправлено:', result);
   jobID = result.jobId;
+  console.log(jobID);
 })
 .catch(error => {
   console.error('Ошибка при отправке:', error);
 });
 
 }
+*/
+
+fetch(`${apiUrl}/api/optimize`, {
+  method: 'POST',               // Метод запроса
+  headers: {
+    'Content-Type': 'application/json' // Тип передаваемых данных
+  },
+  body: JSON.stringify(userData)   // Преобразуем объект в JSON-строку
+})
+.then(response => response.json())
+.then(result => {
+  console.log('Успешно отправлено:', result);
+})
+.catch(error => {
+  console.error('Ошибка при отправке:', error);
+});
+
+}
+
+
 /*
 
 const resultResponse = await fetch(`/api/optimize/result/${jobId}`);
@@ -121,7 +148,7 @@ if (!resultResponse.ok) {
 */
 let pollingIntervalId;
 
-
+/*
 function startPolling() {
   if (gotResp) return;
 
@@ -148,3 +175,4 @@ function startPolling() {
   }, 1000); // каждые 1 сек
 }
 startPolling();
+*/
