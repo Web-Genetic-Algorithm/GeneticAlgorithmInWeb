@@ -2,8 +2,11 @@ document.querySelector('#send-request').addEventListener('click', () => {
   sendGARequest();
 })
 
-const apiUrl = "http://stud-learn.usm.md:3000";
+//const apiUrl = "http://stud-learn.usm.md:3000";
+  const apiUrl = "http://localhost:3000";  
+let jobID = NaN;
 
+let gotResp = false;
 async function sendGARequest() {
   const inputTime = document.getElementById('input-time');
   const inputGen = document.getElementById('input-generations');
@@ -17,7 +20,7 @@ async function sendGARequest() {
     alert('Выберите тип остановки: Время или Поколения');
     return;
   }
-
+  
   let minVal, maxVal, generationsCount, timeOfWork;
 
   if (stopType === 'time') {
@@ -62,7 +65,7 @@ async function sendGARequest() {
     generationsCount: stopType === 'generations' ? generationsCount : NaN,
     timeOfWork: stopType === 'time' ? timeOfWork : NaN,
   };
-
+  console.log(userData);
   /*
   try {
     const response = await fetch(`${apiUrl}/api/optimize`, {
@@ -90,7 +93,7 @@ async function sendGARequest() {
   }
     */
 
-  fetch(`${apiUrl}/api/optimize`, {
+fetch(`${apiUrl}/api/optimize`, {
   method: 'POST',               // Метод запроса
   headers: {
     'Content-Type': 'application/json' // Тип передаваемых данных
@@ -100,16 +103,48 @@ async function sendGARequest() {
 .then(response => response.json())
 .then(result => {
   console.log('Успешно отправлено:', result);
+  jobID = result.jobId;
 })
 .catch(error => {
   console.error('Ошибка при отправке:', error);
 });
 
-
 }
+/*
 
 const resultResponse = await fetch(`/api/optimize/result/${jobId}`);
 if (!resultResponse.ok) {
   outputArea.value = "Ошибка при получении результата: " + resultResponse.statusText;
   return;
 }
+
+*/
+let pollingIntervalId;
+
+
+function startPolling() {
+  if (gotResp) return;
+
+  pollingIntervalId = setInterval(async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/optimize/result/${jobID}`);
+
+      if (!response.ok) {
+        throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Обновлённые данные:', result);
+
+      if (result.status === "done" && result.id) {
+        gotResp = true;
+        clearInterval(pollingIntervalId); // Остановить опрос
+        console.log('Опрос завершён. Получен ID:', result.id);
+      }
+
+    } catch (error) {
+      console.error('Ошибка при опросе сервера:', error);
+    }
+  }, 1000); // каждые 1 сек
+}
+startPolling();
