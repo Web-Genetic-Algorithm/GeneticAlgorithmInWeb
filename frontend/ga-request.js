@@ -63,10 +63,11 @@ async function sendGARequest() {
     timeOfWork: stopType === 'time' ? timeOfWork : NaN,
   };
 
+  /*
   try {
     const response = await fetch(`${apiUrl}/api/optimize`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     });
 
@@ -87,4 +88,28 @@ async function sendGARequest() {
   } catch (error) {
     alert('Ошибка запроса: ' + error.message);
   }
+    */
+
+  fetch(`${apiUrl}/api/optimize`, {
+  method: 'POST',               // Метод запроса
+  headers: {
+    'Content-Type': 'application/json' // Тип передаваемых данных
+  },
+  body: JSON.stringify(userData)   // Преобразуем объект в JSON-строку
+})
+.then(response => response.json())
+.then(result => {
+  console.log('Успешно отправлено:', result);
+})
+.catch(error => {
+  console.error('Ошибка при отправке:', error);
+});
+
+
+}
+
+const resultResponse = await fetch(`/api/optimize/result/${jobId}`);
+if (!resultResponse.ok) {
+  outputArea.value = "Ошибка при получении результата: " + resultResponse.statusText;
+  return;
 }
