@@ -2,7 +2,7 @@ import { convertToBinarParents, binarCrossover, binarChengebility, getRandomIntO
 import { evaluate } from 'mathjs';
 
 
-export function newGeniration(priviosGenerationBests, funcRange) {
+export function newGeniration(priviosGenerationBests) {
   let parentAllVariability = new Array();
 
   for (let i = 0; i < priviosGenerationBests.length; i++) {
@@ -12,16 +12,7 @@ export function newGeniration(priviosGenerationBests, funcRange) {
   }
   let newGenerationInBinar = [];
   for (let i = 0; i < parentAllVariability.length; i++) {
-    let newChild;
-    while (true){
-      newChild = binarCrossover(convertToBinarParents(parentAllVariability[i]));
-
-      if (parseInt(newChild, 2) <= funcRange[1] && parseInt(newChild, 2) >= funcRange[0]){
-        newGenerationInBinar.push(newChild);
-        return;
-      }
-    }
-    
+    newGenerationInBinar.push(binarCrossover(convertToBinarParents(parentAllVariability[i])));
   }
   //console.log(newGenerationInBinar);
   let isChngebility = Math.random() <= 0.25;
@@ -72,4 +63,3 @@ export function getTheBestByNum(arrayOfNums, param, customFunc) {
 export function firstNumsArray(funcRange) {
   return getRandomIntOnInterval(funcRange[0], funcRange[1])
 }
-
